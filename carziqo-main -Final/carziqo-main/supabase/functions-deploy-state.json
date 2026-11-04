@@ -1,0 +1,13 @@
+{
+  "projectId": "72092974",
+  "functions": {
+    "credit-daily-earnings": {
+      "hasChanged": false,
+      "hash": "063d9f0abec00f54226e85921ff94127b2afdcd5250df739b5465fa83e609d7c"
+    },
+    "route-geometry": {
+      "hasChanged": false,
+      "hash": "38506204c51bf266e808aafd5dc229b834af8ddb278cab225a23ba6a1c183b7d"
+    }
+  }
+}
