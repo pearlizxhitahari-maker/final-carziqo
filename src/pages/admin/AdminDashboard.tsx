@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { formatCurrency } from '@/lib/types';
-import { ArrowDownCircle, ArrowUpCircle, Briefcase, Wallet, TrendingUp, ChevronRight } from 'lucide-react';
+import { CircleArrowDown as ArrowDownCircle, CircleArrowUp as ArrowUpCircle, Briefcase, Wallet, TrendingUp, ChevronRight } from 'lucide-react';
 
 interface AdminTab {
   id: 'recharges' | 'withdrawals' | 'cars' | 'users';

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { formatCurrency, WithdrawalWallet, WithdrawalMethod, WITHDRAWAL_METHOD_LABELS } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
-import { X, Check, AlertCircle, ArrowUpCircle, Wallet, Plus, Smartphone, Building2, Bitcoin, Star } from 'lucide-react';
+import { X, Check, CircleAlert as AlertCircle, CircleArrowUp as ArrowUpCircle, Wallet, Plus, Smartphone, Building2, Bitcoin, Star } from 'lucide-react';
 
 const METHOD_ICONS: Record<WithdrawalMethod, React.ReactNode> = {
   gcash: <Smartphone className="w-4 h-4" />,

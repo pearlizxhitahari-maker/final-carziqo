@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Coupon, UserCoupon, GiftItem, UserGift, DailyCheckin, formatCurrency, formatDateShort } from '@/lib/types';
-import { Gift, Ticket, GamepadIcon, CheckCircle, Calendar, Sparkles, Leaf, ArrowRight, Clock, X, Check } from 'lucide-react';
+import { Gift, Ticket, Gamepad as GamepadIcon, CircleCheck as CheckCircle, Calendar, Sparkles, Leaf, ArrowRight, Clock, X, Check } from 'lucide-react';
 import BubbleGame from '@/components/BubbleGame';
 
 export default function Rewards() {

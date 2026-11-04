@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Car as CarType, formatCurrency } from '@/lib/types';
-import { Plus, Edit, Trash2, X, TrendingUp, Car as CarIcon, Check, Gift } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, X, TrendingUp, Car as CarIcon, Check, Gift } from 'lucide-react';
 
 export default function AdminCars() {
   const [cars, setCars] = useState<CarType[]>([]);

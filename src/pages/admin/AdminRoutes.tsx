@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import FleetRouteFormModal from '@/components/FleetRouteFormModal';
-import { MapPin, Plus, Edit, Trash2, ArrowRight } from 'lucide-react';
+import { MapPin, Plus, CreditCard as Edit, Trash2, ArrowRight } from 'lucide-react';
 
 export interface FleetRouteRow {
   id: string;

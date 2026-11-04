@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { Profile, Investment, Car, RechargeLog, WithdrawalLog, formatCurrency, formatDateShort } from '@/lib/types';
 import RechargeModal from '@/pages/user/RechargeModal';
 import WithdrawModal from '@/pages/user/WithdrawModal';
-import { Wallet, TrendingUp, ArrowUpCircle, ArrowDownCircle, Briefcase, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Wallet, TrendingUp, CircleArrowUp as ArrowUpCircle, CircleArrowDown as ArrowDownCircle, Briefcase, Clock, CircleCheck as CheckCircle, Circle as XCircle } from 'lucide-react';
 
 export default function UserDashboard() {
   const { profile, session, refreshProfile } = useAuth();

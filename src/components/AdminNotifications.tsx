@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Bell, CheckCheck, Volume2, VolumeX, X, UserPlus, ArrowDownCircle, ArrowUpCircle } from 'lucide-react';
+import { Bell, CheckCheck, Volume2, VolumeX, X, UserPlus, CircleArrowDown as ArrowDownCircle, CircleArrowUp as ArrowUpCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { AdminNotification } from '@/lib/types';
 

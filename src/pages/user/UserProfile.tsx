@@ -18,12 +18,7 @@ import {
   setActiveCurrency,
 } from '@/lib/types';
 import { StatusBadge } from '@/pages/user/UserDashboard';
-import {
-  User, Mail, Phone, Camera, Key, ArrowDownCircle, ArrowUpCircle,
-  Check, X, Gift, Copy, Wallet, Plus, Trash2, Star, Smartphone,
-  Building2, Bitcoin, AlertCircle, Loader2, Crown, Sparkles,
-  Palette, Bell, Globe, Frame, Volume2, VolumeX, Coins,
-} from 'lucide-react';
+import { User, Mail, Phone, Camera, Key, CircleArrowDown as ArrowDownCircle, CircleArrowUp as ArrowUpCircle, Check, X, Gift, Copy, Wallet, Plus, Trash2, Star, Smartphone, Building2, Bitcoin, CircleAlert as AlertCircle, Loader as Loader2, Crown, Sparkles, Palette, Bell, Globe, Frame, Volume2, VolumeX, Coins } from 'lucide-react';
 
 const METHOD_ICONS: Record<WithdrawalMethod, React.ReactNode> = {
   gcash: <Smartphone className="w-4 h-4" />,

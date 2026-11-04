@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Profile, AuditLog, Investment, RechargeLog, WithdrawalLog, formatCurrency, formatDate } from '@/lib/types';
-import { Users, Activity, Search, TrendingUp, ArrowDownCircle, ArrowUpCircle, Briefcase, Pause, Play, Pencil, Trash2 } from 'lucide-react';
+import { Users, Activity, Search, TrendingUp, CircleArrowDown as ArrowDownCircle, CircleArrowUp as ArrowUpCircle, Briefcase, Pause, Play, Pencil, Trash2 } from 'lucide-react';
 import AdminInvestmentModal from '@/components/AdminInvestmentModal';
 
 export default function AdminUsers() {

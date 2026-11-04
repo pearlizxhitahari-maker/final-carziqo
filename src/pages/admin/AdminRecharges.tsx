@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { RechargeLog, Profile, formatCurrency, formatDate } from '@/lib/types';
-import { Check, X, Clock, ArrowDownCircle, AlertCircle, FileImage } from 'lucide-react';
+import { Check, X, Clock, CircleArrowDown as ArrowDownCircle, CircleAlert as AlertCircle, FileImage } from 'lucide-react';
 
 export default function AdminRecharges() {
   const [recharges, setRecharges] = useState<RechargeLog[]>([]);

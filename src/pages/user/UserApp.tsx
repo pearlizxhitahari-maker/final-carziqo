@@ -1,5 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
-import { Car, Home, Briefcase, User, LogOut, Gift, Leaf, Info } from 'lucide-react';
+import { Car, Chrome as Home, Briefcase, User, LogOut, Gift, Leaf, Info } from 'lucide-react';
 import { useState } from 'react';
 import UserDashboard from '@/pages/user/UserDashboard';
 import CarStore from '@/pages/user/CarStore';

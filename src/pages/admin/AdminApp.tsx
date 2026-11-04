@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import AdminNotifications from '@/components/AdminNotifications';
-import { LayoutDashboard, Car, ArrowDownCircle, ArrowUpCircle, Users, LogOut, Menu, X, Info, Route } from 'lucide-react';
+import { LayoutDashboard, Car, CircleArrowDown as ArrowDownCircle, CircleArrowUp as ArrowUpCircle, Users, LogOut, Menu, X, Info, Route } from 'lucide-react';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
 import AdminRecharges from '@/pages/admin/AdminRecharges';
 import AdminWithdrawals from '@/pages/admin/AdminWithdrawals';

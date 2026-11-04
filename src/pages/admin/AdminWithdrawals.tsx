@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { WithdrawalLog, Profile, formatCurrency, formatDate } from '@/lib/types';
-import { Check, X, Clock, ArrowUpCircle } from 'lucide-react';
+import { Check, X, Clock, CircleArrowUp as ArrowUpCircle } from 'lucide-react';
 
 export default function AdminWithdrawals() {
   const [withdrawals, setWithdrawals] = useState<WithdrawalLog[]>([]);

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { PaymentMethod, formatCurrency } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
-import { X, Upload, QrCode, Check, AlertCircle } from 'lucide-react';
+import { X, Upload, QrCode, Check, CircleAlert as AlertCircle } from 'lucide-react';
 
 export default function RechargeModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
   const { session } = useAuth();

@@ -4,7 +4,7 @@ import { Investment, formatCurrency, formatDateShort } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
 import { StatusBadge } from '@/pages/user/UserDashboard';
 import FleetMap from '@/components/FleetMap';
-import { TrendingUp, Clock, CheckCircle, Briefcase } from 'lucide-react';
+import { TrendingUp, Clock, CircleCheck as CheckCircle, Briefcase } from 'lucide-react';
 
 export default function MyRentals() {
   const { session } = useAuth();
