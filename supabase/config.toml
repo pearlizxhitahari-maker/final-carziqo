@@ -1,0 +1,5 @@
+[functions.credit-daily-earnings]
+verify_jwt = true
+
+[functions.route-geometry]
+verify_jwt = true

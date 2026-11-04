@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #0066ff;
+    --color-primary-dark: #0052cc;
+    --color-primary-light: #3385ff;
+    --color-accent: #00c896;
+    --color-bg: #0a0e1a;
+    --color-surface: #131825;
+    --color-surface-light: #1a2033;
+    --color-border: #232a3f;
+  }
+
+  body {
+    @apply bg-[#0a0e1a] text-gray-100 antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(19, 24, 37, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+  }
+
+  .gradient-accent {
+    background: linear-gradient(135deg, #00c896 0%, #00a673 100%);
+  }
+
+  .gradient-gold {
+    background: linear-gradient(135deg, #f0b90b 0%, #d4a300 100%);
+  }
+
+  .gradient-dark {
+    background: linear-gradient(180deg, #131825 0%, #0a0e1a 100%);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, #3385ff 0%, #00c896 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.25s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes avatarFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 4s linear infinite;
+}
+
+.avatar-float {
+  animation: avatarFloat 3s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 102, 255, 0); }
+  50% { transform: scale(1.05); box-shadow: 0 0 8px 2px rgba(0, 102, 255, 0.15); }
+}
+
+.avatar-pulse {
+  animation: avatarPulse 2.5s ease-in-out infinite;
+}
