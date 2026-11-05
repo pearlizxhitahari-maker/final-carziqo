@@ -48,7 +48,8 @@ export default function AdminInvestmentModal({
       onSaved();
     } catch (cause) {
       console.error('admin_manage_investment failed', cause);
-      setError('That action could not be completed. Please try again.');
+      const msg = cause instanceof Error ? cause.message : 'That action could not be completed. Please try again.';
+      setError(msg);
     } finally {
       setSaving(false);
     }
