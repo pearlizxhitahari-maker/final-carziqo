@@ -20,7 +20,7 @@ export default function AdminDashboard({ onNavigate }: { onNavigate: (tab: Admin
   });
 
   useEffect(() => {
-    loadStats();
+    void loadStats();
   }, []);
 
   async function loadStats() {
@@ -60,60 +60,24 @@ export default function AdminDashboard({ onNavigate }: { onNavigate: (tab: Admin
 
       {/* Metric cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard
-          icon={<ArrowDownCircle className="w-6 h-6" />}
-          label="Pending Recharges"
-          value={String(stats.pendingRecharges)}
-          color="text-amber-400"
-          bg="bg-amber-500/10"
-          onClick={() => onNavigate('recharges')}
-        />
-        <MetricCard
-          icon={<ArrowUpCircle className="w-6 h-6" />}
-          label="Pending Withdrawals"
-          value={String(stats.pendingWithdrawals)}
-          color="text-orange-400"
-          bg="bg-orange-500/10"
-          onClick={() => onNavigate('withdrawals')}
-        />
-        <MetricCard
-          icon={<Briefcase className="w-6 h-6" />}
-          label="Active Rentals"
-          value={String(stats.activeRentals)}
-          color="text-blue-400"
-          bg="bg-blue-500/10"
-        />
-        <MetricCard
-          icon={<Wallet className="w-6 h-6" />}
-          label="Total Platform Balance"
-          value={formatCurrency(stats.totalBalance)}
-          color="text-emerald-400"
-          bg="bg-emerald-500/10"
-        />
+        <MetricCard icon={<ArrowDownCircle className="w-6 h-6" />} label="Pending Recharges" value={String(stats.pendingRecharges)} color="text-amber-400" bg="bg-amber-500/10" onClick={() => onNavigate('recharges')} delay={0} />
+        <MetricCard icon={<ArrowUpCircle className="w-6 h-6" />} label="Pending Withdrawals" value={String(stats.pendingWithdrawals)} color="text-orange-400" bg="bg-orange-500/10" onClick={() => onNavigate('withdrawals')} delay={0.1} />
+        <MetricCard icon={<Briefcase className="w-6 h-6" />} label="Active Rentals" value={String(stats.activeRentals)} color="text-blue-400" bg="bg-blue-500/10" delay={0.2} />
+        <MetricCard icon={<Wallet className="w-6 h-6" />} label="Total Platform Balance" value={formatCurrency(stats.totalBalance)} color="text-emerald-400" bg="bg-emerald-500/10" delay={0.3} />
       </div>
 
       {/* Secondary stats */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-[#131825] rounded-xl p-5 border border-[#232a3f]">
+        <div className="bg-[#131825] rounded-xl p-5 border border-[#232a3f] hover:border-blue-500/30 transition-all animate-float-card">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400">
-              <TrendingUp className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-gray-400 text-xs">Total Users</p>
-              <p className="text-white text-xl font-bold">{stats.totalUsers}</p>
-            </div>
+            <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 animate-pulse-glow"><TrendingUp className="w-5 h-5" /></div>
+            <div><p className="text-gray-400 text-xs">Total Users</p><p className="text-white text-xl font-bold">{stats.totalUsers}</p></div>
           </div>
         </div>
-        <div className="bg-[#131825] rounded-xl p-5 border border-[#232a3f]">
+        <div className="bg-[#131825] rounded-xl p-5 border border-[#232a3f] hover:border-blue-500/30 transition-all animate-float-card" style={{ animationDelay: '0.5s' }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400">
-              <Briefcase className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-gray-400 text-xs">Total Cars Listed</p>
-              <p className="text-white text-xl font-bold">{stats.totalCars}</p>
-            </div>
+            <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 animate-pulse-glow"><Briefcase className="w-5 h-5" /></div>
+            <div><p className="text-gray-400 text-xs">Total Cars Listed</p><p className="text-white text-xl font-bold">{stats.totalCars}</p></div>
           </div>
         </div>
       </div>
@@ -122,16 +86,10 @@ export default function AdminDashboard({ onNavigate }: { onNavigate: (tab: Admin
       <div>
         <h3 className="text-sm font-semibold text-gray-300 mb-3">Quick Actions</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {quickActions.map((action) => (
-            <button
-              key={action.id}
-              onClick={() => onNavigate(action.id)}
-              className="flex items-center justify-between bg-[#131825] rounded-xl p-4 border border-[#232a3f] hover:border-blue-500/40 transition-all group"
-            >
+          {quickActions.map((action, i) => (
+            <button key={action.id} onClick={() => onNavigate(action.id)} className="flex items-center justify-between bg-[#131825] rounded-xl p-4 border border-[#232a3f] hover:border-blue-500/40 transition-all group animate-slide-in-right" style={{ animationDelay: `${i * 0.08}s`, animationFillMode: 'both' }}>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20 transition-colors">
-                  {action.icon}
-                </div>
+                <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20 transition-colors animate-glow-ring">{action.icon}</div>
                 <span className="text-white font-medium text-sm">{action.label}</span>
               </div>
               <ChevronRight className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
@@ -143,22 +101,10 @@ export default function AdminDashboard({ onNavigate }: { onNavigate: (tab: Admin
   );
 }
 
-function MetricCard({ icon, label, value, color, bg, onClick }: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  color: string;
-  bg: string;
-  onClick?: () => void;
-}) {
+function MetricCard({ icon, label, value, color, bg, onClick, delay }: { icon: React.ReactNode; label: string; value: string; color: string; bg: string; onClick?: () => void; delay: number }) {
   return (
-    <div
-      onClick={onClick}
-      className={`bg-[#131825] rounded-xl p-5 border border-[#232a3f] ${onClick ? 'cursor-pointer hover:border-blue-500/40 transition-all' : ''}`}
-    >
-      <div className={`w-12 h-12 ${bg} rounded-xl flex items-center justify-center ${color} mb-3`}>
-        {icon}
-      </div>
+    <div onClick={onClick} className={`bg-[#131825] rounded-xl p-5 border border-[#232a3f] ${onClick ? 'cursor-pointer hover:border-blue-500/40 transition-all' : ''} animate-bounce-in`} style={{ animationDelay: `${delay}s`, animationFillMode: 'both' }}>
+      <div className={`w-12 h-12 ${bg} rounded-xl flex items-center justify-center ${color} mb-3 animate-pulse-glow`}>{icon}</div>
       <p className="text-gray-400 text-xs mb-1">{label}</p>
       <p className="text-white text-2xl font-bold">{value}</p>
     </div>

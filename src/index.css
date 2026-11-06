@@ -12,6 +12,7 @@
     --color-surface: #131825;
     --color-surface-light: #1a2033;
     --color-border: #232a3f;
+    --live-glow: rgba(0,102,255,0.25);
   }
 
   body {
@@ -28,11 +29,11 @@
   }
 
   .gradient-primary {
-    background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+    background: linear-gradient(135deg, var(--color-primary, #0066ff) 0%, var(--color-primary-dark, #0052cc) 100%);
   }
 
   .gradient-accent {
-    background: linear-gradient(135deg, #00c896 0%, #00a673 100%);
+    background: linear-gradient(135deg, var(--color-accent, #00c896) 0%, #00a673 100%);
   }
 
   .gradient-gold {
@@ -111,4 +112,166 @@
 
 .avatar-pulse {
   animation: avatarPulse 2.5s ease-in-out infinite;
+}
+
+/* ============================================================
+   Live animated background — shifting gradients, orbs, grid
+   ============================================================ */
+.live-bg-aurora {
+  position: absolute;
+  inset: -10%;
+  filter: blur(60px);
+  opacity: 0.9;
+  transition: background 8s ease-in-out;
+  animation: auroraShift 18s ease-in-out infinite alternate;
+}
+
+.live-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(35, 42, 63, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(35, 42, 63, 0.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 0%, transparent 80%);
+  animation: gridDrift 30s linear infinite;
+}
+
+.live-bg-orbs {
+  position: absolute;
+  inset: 0;
+}
+.live-bg-orbs span {
+  position: absolute;
+  display: block;
+  border-radius: 9999px;
+  filter: blur(40px);
+  opacity: 0.5;
+  transition: background 8s ease-in-out;
+}
+.live-bg-orbs span:nth-child(1) {
+  width: 320px; height: 320px;
+  top: 8%; left: 6%;
+  animation: orbFloat1 22s ease-in-out infinite;
+}
+.live-bg-orbs span:nth-child(2) {
+  width: 260px; height: 260px;
+  bottom: 10%; right: 8%;
+  animation: orbFloat2 26s ease-in-out infinite;
+}
+.live-bg-orbs span:nth-child(3) {
+  width: 200px; height: 200px;
+  top: 45%; left: 55%;
+  animation: orbFloat3 20s ease-in-out infinite;
+}
+
+.live-bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+@keyframes auroraShift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(2%, -2%, 0) scale(1.08); }
+  100% { transform: translate3d(-2%, 1%, 0) scale(1.04); }
+}
+
+@keyframes gridDrift {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: 48px 48px, 48px 48px; }
+}
+
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(40px, 30px, 0) scale(1.15); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-30px, -20px, 0) scale(1.2); }
+}
+@keyframes orbFloat3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33%      { transform: translate3d(-20px, 15px, 0) scale(1.1); }
+  66%      { transform: translate3d(25px, -10px, 0) scale(0.95); }
+}
+
+/* Enhanced motion utilities */
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.8s ease-in-out infinite;
+}
+
+.animate-float-card {
+  animation: floatCard 5s ease-in-out infinite;
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradientX 6s ease infinite;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s ease-out;
+}
+
+.animate-glow-ring {
+  animation: glowRing 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--live-glow, rgba(0,102,255,0.25)); }
+  50%      { box-shadow: 0 0 18px 4px var(--live-glow, rgba(0,102,255,0.25)); }
+}
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes gradientX {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { opacity: 1; transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glowRing {
+  0%, 100% { box-shadow: 0 0 0 2px transparent; }
+  50%      { box-shadow: 0 0 0 2px var(--color-primary, #0066ff), 0 0 16px 2px var(--live-glow, rgba(0,102,255,0.3)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-bg-aurora, .live-bg-grid, .live-bg-orbs span, .live-bg-noise,
+  .animate-shimmer, .animate-pulse-glow, .animate-float-card,
+  .animate-gradient-x, .animate-bounce-in, .animate-slide-in-right,
+  .animate-glow-ring, .animate-spin-slow, .avatar-float, .avatar-pulse {
+    animation: none !important;
+  }
 }

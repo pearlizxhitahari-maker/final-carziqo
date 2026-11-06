@@ -28,17 +28,17 @@ export default function AdminApp({ onShowAbout }: { onShowAbout: () => void }) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0e1a] flex">
-      <aside className={`fixed lg:sticky top-0 left-0 z-50 h-screen w-64 bg-[#131825] border-r border-[#232a3f] transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+    <div className="min-h-screen flex">
+      <aside className={`glass fixed lg:sticky top-0 left-0 z-50 h-screen w-64 border-r border-[#232a3f] transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-5 border-b border-[#232a3f]">
           <div className="flex items-center gap-3">
-            <img src="/carziqo.webp" alt="Carziqo.Ltd" className="w-10 h-10 rounded-lg object-cover bg-white" />
+            <img src="/carziqo.webp" alt="Carziqo.Ltd" className="w-10 h-10 rounded-lg object-cover bg-white animate-glow-ring" />
             <div><h1 className="font-bold text-white text-sm">Admin Panel</h1><p className="text-[10px] text-gray-400">Carziqo.Ltd</p></div>
           </div>
         </div>
         <nav className="p-3 space-y-1">
           {navItems.map((item) => (
-            <button key={item.id} onClick={() => { setTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === item.id ? 'gradient-primary text-white shadow-lg shadow-blue-500/20' : 'text-gray-400 hover:text-white hover:bg-[#1a2033]'}`}>
+            <button key={item.id} onClick={() => { setTab(item.id); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === item.id ? 'gradient-primary text-white shadow-lg shadow-blue-500/20 animate-pulse-glow' : 'text-gray-400 hover:text-white hover:bg-[#1a2033]'}`}>
               {item.icon}{item.label}
             </button>
           ))}
