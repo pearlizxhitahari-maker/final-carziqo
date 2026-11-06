@@ -135,7 +135,7 @@ export default function RechargeModal({ onClose, onSuccess }: { onClose: () => v
         {/* Step 1: Amount */}
         {step === 'amount' && (
           <div className="animate-fade-in">
-            <label className="text-sm font-medium text-gray-300 mb-2 block">Enter Amount (₱)</label>
+            <label className="text-sm font-medium text-gray-300 mb-2 block">Enter Amount (₱,$,€)</label>
             <input
               type="number"
               value={amount}
@@ -153,7 +153,7 @@ export default function RechargeModal({ onClose, onSuccess }: { onClose: () => v
                   onClick={() => setAmount(String(amt))}
                   className="flex-1 py-2 rounded-lg bg-[#0a0e1a] border border-[#232a3f] text-gray-300 text-sm font-medium hover:border-blue-500/40 hover:text-white transition-all"
                 >
-                  ₱{amt}
+                  ₱ $ € {amt}
                 </button>
               ))}
             </div>
