@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Car as CarType, formatCurrency } from '@/lib/types';
-import { Plus, CreditCard as Edit, Trash2, X, TrendingUp, Car as CarIcon, Check, Gift } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, X, TrendingUp, Car as CarIcon, Check, Gift, Upload, Camera, Loader as Loader2 } from 'lucide-react';
 
 export default function AdminCars() {
   const [cars, setCars] = useState<CarType[]>([]);
@@ -131,7 +131,41 @@ function CarFormModal({ car, onClose, onSaved }: { car: CarType | null; onClose:
   const [status, setStatus] = useState(car?.status || 'active');
   const [isFree, setIsFree] = useState(car?.is_free || false);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setError(null);
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please choose an image file.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Car images must be smaller than 5 MB.');
+      return;
+    }
+
+    setUploading(true);
+    const fileExt = file.name.split('.').pop() || 'jpg';
+    const fileName = `car-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage.from('car-images').upload(fileName, file, {
+      contentType: file.type,
+      cacheControl: '3600',
+    });
+    if (uploadError) {
+      setError('Could not upload the image. Please try again.');
+      setUploading(false);
+      return;
+    }
+
+    const { data } = supabase.storage.from('car-images').getPublicUrl(fileName);
+    setImageUrl(`${data.publicUrl}?v=${Date.now()}`);
+    setUploading(false);
+  }
 
   async function handleSave() {
     setError(null);
@@ -190,15 +224,32 @@ function CarFormModal({ car, onClose, onSaved }: { car: CarType | null; onClose:
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Image URL</label>
-            <input
-              type="url"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              className="form-input"
-              placeholder="https://..."
-            />
-            {imageUrl && <img src={imageUrl} alt="Preview" className="mt-2 w-full h-32 rounded-lg object-cover" />}
+            <label className="block text-sm font-medium text-gray-300 mb-2">Car Image</label>
+            <p className="text-gray-500 text-xs mb-2">Upload a photo of the car</p>
+            {imageUrl ? (
+              <div className="relative w-full h-36 rounded-lg overflow-hidden border border-[#232a3f] mb-2">
+                <img src={imageUrl} alt="Car preview" className="w-full h-full object-cover" />
+                {uploading && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                    <Loader2 className="w-6 h-6 text-white animate-spin" />
+                  </div>
+                )}
+                <label className="absolute bottom-2 right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors">
+                  <Camera className="w-4 h-4 text-white" />
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                </label>
+              </div>
+            ) : (
+              <label className="flex flex-col items-center justify-center w-full h-36 rounded-lg border-2 border-dashed border-[#232a3f] cursor-pointer hover:border-blue-500/50 transition-all">
+                {uploading ? (
+                  <Loader2 className="w-8 h-8 text-blue-400 animate-spin mb-2" />
+                ) : (
+                  <Upload className="w-8 h-8 text-gray-500 mb-2" />
+                )}
+                <span className="text-gray-400 text-sm">{uploading ? 'Uploading...' : 'Click to upload photo'}</span>
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+              </label>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>

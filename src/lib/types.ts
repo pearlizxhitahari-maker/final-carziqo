@@ -1,5 +1,24 @@
 export type UserRole = 'user' | 'admin';
 
+export type LanguageCode = 'en' | 'fil' | 'es' | 'fr' | 'zh' | 'ja' | 'ko' | 'ar';
+
+export interface LanguageInfo {
+  code: LanguageCode;
+  label: string;
+  flag: string;
+}
+
+export const LANGUAGES: Record<LanguageCode, LanguageInfo> = {
+  en: { code: 'en', label: 'English', flag: '🇬🇧' },
+  fil: { code: 'fil', label: 'Filipino', flag: '🇵🇭' },
+  es: { code: 'es', label: 'Español', flag: '🇪🇸' },
+  fr: { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  zh: { code: 'zh', label: '中文', flag: '🇨🇳' },
+  ja: { code: 'ja', label: '日本語', flag: '🇯🇵' },
+  ko: { code: 'ko', label: '한국어', flag: '🇰🇷' },
+  ar: { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+};
+
 export interface Profile {
   id: string;
   full_name: string;
@@ -13,7 +32,7 @@ export interface Profile {
   free_investment_id: string | null;
   vip_level: number;
   theme_color: 'blue' | 'emerald' | 'amber' | 'rose' | 'violet' | 'cyan';
-  language: 'en' | 'fil';
+  language: LanguageCode;
   notif_sound: boolean;
   avatar_frame: 'none' | 'gold' | 'neon' | 'cosmic' | null;
   currency: CurrencyCode;

@@ -409,19 +409,25 @@ export default function UserProfile() {
           <div className="bg-[#131825] rounded-xl border border-[#232a3f] p-4">
             <div className="flex items-center gap-2 mb-3">
               <Globe className="w-4 h-4 text-emerald-400" />
-              <h3 className="text-white font-semibold text-sm">Language</h3>
+              <h3 className="text-white font-semibold text-sm">{t('profile.language')}</h3>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              {([['en', 'English'], ['fil', 'Filipino']] as const).map(([code, label]) => (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setLanguage(code)}
-                  className={`rounded-xl py-3 text-sm font-medium transition-all ${language === code ? 'gradient-primary text-white' : 'bg-[#0a0e1a] text-gray-400 border border-[#232a3f] hover:text-white'}`}
-                >
-                  {label}
-                </button>
-              ))}
+            <p className="text-gray-500 text-xs mb-3">Selecting a language instantly translates the entire app interface.</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {(Object.keys(LANGUAGES) as LanguageCode[]).map((code) => {
+                const info = LANGUAGES[code];
+                const selected = language === code;
+                return (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => setLanguage(code)}
+                    className={`rounded-xl py-3 text-sm font-medium transition-all flex flex-col items-center gap-1 ${selected ? 'gradient-primary text-white' : 'bg-[#0a0e1a] text-gray-400 border border-[#232a3f] hover:text-white'}`}
+                  >
+                    <span className="text-lg">{info.flag}</span>
+                    <span className="text-xs">{info.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

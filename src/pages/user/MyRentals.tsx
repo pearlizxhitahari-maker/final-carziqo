@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Investment, formatCurrency, formatDateShort } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { StatusBadge } from '@/pages/user/UserDashboard';
 import FleetMap from '@/components/FleetMap';
 import { TrendingUp, Clock, CircleCheck as CheckCircle, Briefcase } from 'lucide-react';
 
 export default function MyRentals() {
   const { session } = useAuth();
+  const { t } = useLanguage();
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
   useEffect(() => {
-    loadInvestments();
+    void loadInvestments();
   }, [session]);
 
   async function loadInvestments() {
@@ -42,44 +44,33 @@ export default function MyRentals() {
 
   return (
     <div className="animate-fade-in">
-      <h2 className="text-xl font-bold text-white mb-1">My Rentals</h2>
-      <p className="text-gray-400 text-sm mb-5">Track your investment progress and earnings</p>
+      <h2 className="text-xl font-bold text-white mb-1">{t('rentals.title')}</h2>
+      <p className="text-gray-400 text-sm mb-5">{t('rentals.subtitle')}</p>
 
-      {/* Summary */}
       <div className="grid grid-cols-3 gap-3 mb-5">
-        <MiniStat label="Active" value={String(active.length)} icon={<TrendingUp className="w-4 h-4" />} color="text-blue-400" />
-        <MiniStat label="Completed" value={String(completed.length)} icon={<CheckCircle className="w-4 h-4" />} color="text-emerald-400" />
-        <MiniStat label="Total Earned" value={formatCurrency(totalEarned)} icon={<Briefcase className="w-4 h-4" />} color="text-amber-400" />
+        <MiniStat label={t('rentals.active')} value={String(active.length)} icon={<TrendingUp className="w-4 h-4" />} color="text-blue-400" />
+        <MiniStat label={t('rentals.completed')} value={String(completed.length)} icon={<CheckCircle className="w-4 h-4" />} color="text-emerald-400" />
+        <MiniStat label={t('rentals.totalEarned')} value={formatCurrency(totalEarned)} icon={<Briefcase className="w-4 h-4" />} color="text-amber-400" />
       </div>
 
       {active.length > 0 && <div className="mb-5"><FleetMap investments={active} /></div>}
 
-      {/* Filter tabs */}
       <div className="flex gap-2 mb-4 p-1 bg-[#131825] rounded-xl">
         {(['all', 'active', 'completed'] as const).map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all capitalize ${
-              filter === f ? 'gradient-primary text-white' : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            {f}
+          <button key={f} onClick={() => setFilter(f)} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all capitalize ${filter === f ? 'gradient-primary text-white' : 'text-gray-400 hover:text-white'}`}>
+            {t(`rentals.${f}` as 'rentals.all')}
           </button>
         ))}
       </div>
 
-      {/* List */}
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
           <Briefcase className="w-12 h-12 mx-auto mb-3 opacity-30" />
-          <p className="text-sm">No rentals found</p>
+          <p className="text-sm">{t('rentals.noRentals')}</p>
         </div>
       ) : (
         <div className="space-y-4">
-          {filtered.map((inv) => (
-            <InvestmentCard key={inv.id} inv={inv} />
-          ))}
+          {filtered.map((inv) => <InvestmentCard key={inv.id} inv={inv} t={t} />)}
         </div>
       )}
     </div>
@@ -96,10 +87,13 @@ function MiniStat({ label, value, icon, color }: { label: string; value: string;
   );
 }
 
-function InvestmentCard({ inv }: { inv: Investment }) {
+type TFunc = (key: import('@/lib/i18n/translations').TranslationKey) => string;
+
+function InvestmentCard({ inv, t }: { inv: Investment; t: TFunc }) {
   const progress = Math.min((inv.days_completed / inv.duration_days) * 100, 100);
   const remaining = inv.duration_days - inv.days_completed;
   const dailyPayout = Number(inv.daily_payout);
+  const isActive = inv.status === 'active';
 
   return (
     <div className="bg-[#131825] rounded-2xl overflow-hidden border border-[#232a3f]">
@@ -110,53 +104,69 @@ function InvestmentCard({ inv }: { inv: Investment }) {
             <h3 className="text-white font-semibold text-sm truncate">{inv.car_name}</h3>
             <StatusBadge status={inv.status} />
           </div>
-          <p className="text-gray-400 text-xs mb-2">Started {formatDateShort(inv.start_date)}</p>
+          <p className="text-gray-400 text-xs mb-2">{t('rentals.started')} {formatDateShort(inv.start_date)}</p>
           <div className="flex items-center gap-3 text-xs">
-            <div>
-              <span className="text-gray-500">Invested: </span>
-              <span className="text-white font-semibold">{formatCurrency(Number(inv.investment_amount))}</span>
-            </div>
-            <div>
-              <span className="text-gray-500">Daily: </span>
-              <span className="text-emerald-400 font-semibold">{formatCurrency(dailyPayout)}</span>
-            </div>
+            <div><span className="text-gray-500">{t('rentals.invested')} </span><span className="text-white font-semibold">{formatCurrency(Number(inv.investment_amount))}</span></div>
+            <div><span className="text-gray-500">{t('rentals.daily')} </span><span className="text-emerald-400 font-semibold">{formatCurrency(dailyPayout)}</span></div>
           </div>
         </div>
       </div>
 
-      {/* Progress bar */}
-      <div className="px-4 pb-4">
+      {/* Animated car scene — picks up and drops off passengers */}
+      {isActive && <CarPassengerScene t={t} />}
+
+      <div className="px-4 pb-4 pt-2">
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-gray-400 text-xs flex items-center gap-1">
-            <Clock className="w-3 h-3" /> {inv.days_completed} / {inv.duration_days} days
-          </span>
-          <span className="text-gray-400 text-xs">
-            {inv.status === 'active' ? `${remaining} days left` : 'Completed'}
-          </span>
+          <span className="text-gray-400 text-xs flex items-center gap-1"><Clock className="w-3 h-3" /> {inv.days_completed} / {inv.duration_days} days</span>
+          <span className="text-gray-400 text-xs">{isActive ? `${remaining} ${t('rentals.daysLeft')}` : t('rentals.completed2')}</span>
         </div>
         <div className="w-full h-2 bg-[#232a3f] rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-700 ${inv.status === 'completed' ? 'gradient-accent' : 'gradient-primary'}`}
-            style={{ width: `${progress}%` }}
-          />
+          <div className={`h-full rounded-full transition-all duration-700 ${inv.status === 'completed' ? 'gradient-accent' : 'gradient-primary'}`} style={{ width: `${progress}%` }} />
         </div>
       </div>
 
-      {/* Earnings footer */}
       <div className="bg-[#0a0e1a] px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div>
-            <p className="text-gray-500 text-[10px]">Total Earned</p>
-            <p className="text-emerald-400 font-bold text-sm">{formatCurrency(Number(inv.total_earned))}</p>
-          </div>
+          <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center"><TrendingUp className="w-4 h-4 text-emerald-400" /></div>
+          <div><p className="text-gray-500 text-[10px]">{t('rentals.totalEarned')}</p><p className="text-emerald-400 font-bold text-sm">{formatCurrency(Number(inv.total_earned))}</p></div>
         </div>
-        <div className="text-right">
-          <p className="text-gray-500 text-[10px]">Expected Total</p>
-          <p className="text-white font-semibold text-sm">{formatCurrency(dailyPayout * inv.duration_days)}</p>
-        </div>
+        <div className="text-right"><p className="text-gray-500 text-[10px]">{t('rentals.expectedTotal')}</p><p className="text-white font-semibold text-sm">{formatCurrency(dailyPayout * inv.duration_days)}</p></div>
+      </div>
+    </div>
+  );
+}
+
+function CarPassengerScene({ t }: { t: TFunc }) {
+  const [phase, setPhase] = useState<'enRoute' | 'pickingUp' | 'droppingOff'>('enRoute');
+
+  useEffect(() => {
+    const cycle = [
+      { phase: 'enRoute' as const, duration: 1500 },
+      { phase: 'pickingUp' as const, duration: 2000 },
+      { phase: 'enRoute' as const, duration: 1500 },
+      { phase: 'droppingOff' as const, duration: 2000 },
+    ];
+    let i = 0;
+    setPhase(cycle[0].phase);
+    const next = () => {
+      i = (i + 1) % cycle.length;
+      setPhase(cycle[i].phase);
+      timer = window.setTimeout(next, cycle[i].duration);
+    };
+    let timer = window.setTimeout(next, cycle[0].duration);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const label = phase === 'pickingUp' ? t('rentals.pickingUp') : phase === 'droppingOff' ? t('rentals.droppingOff') : t('rentals.enRoute');
+
+  return (
+    <div className="px-4 pb-1">
+      <div className="rental-car-scene">
+        <div className="rental-status-label">{label}</div>
+        <div className="rental-road" />
+        <span className={`rental-car-vehicle ${phase !== 'enRoute' ? 'stopped' : ''}`} role="img" aria-label="car">🚗</span>
+        <span className="rental-passenger pickup" role="img" aria-label="passenger waiting">🧑</span>
+        <span className="rental-passenger dropoff" role="img" aria-label="passenger arriving">🧑</span>
       </div>
     </div>
   );
